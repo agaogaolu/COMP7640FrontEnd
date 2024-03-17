@@ -25,9 +25,11 @@
 </template>
 
 <script>
+import { msgPwdChange } from '@/api/msg'
+
 export default {
     created() {
-        this.getdata()
+        // this.getdata()
     },
     data() {
         return {
@@ -44,25 +46,29 @@ export default {
         }
     },
     methods: {
+        async changePwd() {
+            const res = await msgPwdChange(this.form)
+            if (res.status == 200) {
+                this.$message({
+                    message: res.msg,
+                    type: "success"
+                })
+            } else {
+                this.$message({
+                    message: res.msg,
+                    type: "error"
+                })
+            }
+        },
+
         change() {
+
             this.$refs.form.validate(valid => {
                 if (!valid)
                     return;
                 else //验证通过再发送请求
                     if (this.form.check_pwd == this.form.new_pwd) {
-                        this.$axios.post("/api/user/pwd_chg", this.form).then((res) => {
-                            if (res.data.status == 200) {
-                                this.$message({
-                                    message: res.data.msg,
-                                    type: "success"
-                                })
-                            } else {
-                                this.$message({
-                                    message: res.data.msg,
-                                    type: "error"
-                                })
-                            }
-                        })
+                        this.changePwd()
                     }
                     else {
                         this.$message({

@@ -35,6 +35,9 @@
 </template>
 
 <script>
+import { msgInfoGet } from '@/api/msg'
+
+
 export default {
     created() {
         this.getdata()
@@ -42,28 +45,19 @@ export default {
     data() {
         return {
             form: {
-                real_name: '',
-                sex: '',
-                age: '',
-                mail: '',
-                phone: '',
-                user_name: '',
+                real_name: '1',
+                sex: '1',
+                age: '1',
+                mail: '1',
+                phone: '1',
+                user_name: '1',
             }
         }
     },
     methods: {
-        getdata() {
-            this.$axios.get("/api/user/usermsg").then((res) => {
-                console.log(res.data);
-                if (res.data.status == 200) {
-                    this.form.age = res.data.data.age;
-                    this.form.mail = res.data.data.mail;
-                    this.form.phone = res.data.data.phone;
-                    this.form.real_name = res.data.data.real_name;
-                    this.form.sex = res.data.data.sex;
-                    this.form.user_name = res.data.data.user_name;
-                }
-            })
+        async getdata() {
+            const { data } = await msgInfoGet()
+            this.form = data
         }
     },
 }

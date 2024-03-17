@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { userSendingGet } from '@/api/user'
+
 export default {
     created() {
         this.getdata()
@@ -39,13 +41,10 @@ export default {
         }
     },
     methods: {
-        getdata() {
-            this.$axios.get("/api/user/sending").then((res) => {
-                console.log(res.data);
-                if (res.data.status == 200) {
-                    this.tableData = res.data.tabledata;
-                }
-            })
+        async getdata() {
+            const { tabledata } = await userSendingGet()
+            this.tableData = tabledata
+
         }
     }
 

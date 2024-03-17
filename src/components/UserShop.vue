@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="header">
-            欢迎点餐
+            Welcome!
         </div>
         <div class="body">
             <el-table :data="tableData" style="width: 100%" class="table" border>
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import { userAddData, userGetData } from '@/api/user';
+
 export default {
     created() {
         this.getdata();
@@ -83,31 +85,28 @@ export default {
         }
     },
     methods: {
-        getdata() {
-            this.$axios.get("/api/user/shop").then((res) => {
-                console.log(res.data);
-                if (res.data.status == 200) {
-                    this.tableData = res.data.tabledata;
-                }
-            })
+        async getdata() {
+            const { tabledata } = await userGetData()
+            this.tableData = tabledata
         },
         showdia(row) {
             this.form.shop_name = row.shop_name;
             this.form.order_money = row.price;
             this.dialog = true;
         },
-        add() {
-            this.$axios.post("/api/user/addorder", this.form).then((res) => {
-                console.log(res.data);
-                if (res.data.status == 200) {
-                    this.$message({
-                        message: "成功下单",
-                        type: "success"
-                    })
-                    this.dialog = false;
-                    this.getdata();
-                }
-            })
+        async add() {
+            console.log(this.form)
+            const res = await userAddData(this.form)
+            if (res.status == 200) {
+                this.$message({
+                    message: "成功下单",
+                    type: "success"
+                })
+            } else {
+                this.dialog = false;
+                this.getdata();
+            }
+            console.log(res)
         }
     }
 }

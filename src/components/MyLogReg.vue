@@ -2,7 +2,7 @@
     <div class="container">
         <div class="login_box">
             <div class="head">
-                哈工程外卖平台
+                在线购物系统
             </div>
             <!-- 登录 -->
             <div v-show="target == 1">
@@ -38,7 +38,7 @@
         <!-- 注册表单 -->
         <div class="reg_box" v-show="target == 2">
             <div class="head">
-                哈工程外卖平台
+                在线购物系统
             </div>
             <div>
                 <el-form class="reg_form" :model="reg_form" :rules="reg_rules" ref="reg_form">
@@ -85,10 +85,10 @@
                 </div>
             </div>
         </div>
-<!-- 找回密码 -->
+        <!-- 找回密码 -->
         <div class="forget_box" v-show="target == 3">
             <div class="head">
-                哈工程外卖平台
+                在线购物系统
             </div>
             <div>
                 <el-form class="reg_form" :model="findback_form" :rules="findback_rules" ref="findback_form">
@@ -135,6 +135,8 @@
 </template>
 
 <script>
+import { userLogin } from '@/api/login';
+
 export default {
     name: 'MyLogin',
     data() {
@@ -144,7 +146,8 @@ export default {
                 // 合法的手机号码
                 return cb()
             }
-            cb(new Error('包含大写字母、小写字母、数字，长度在6-12位之间'))
+            return cb()
+            // cb(new Error('包含大写字母、小写字母、数字，长度在6-12位之间'))
         };
         var checkMobile = (rule, value, cb) => {
             const regMobile = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
@@ -152,7 +155,8 @@ export default {
                 // 合法的手机号码
                 return cb()
             }
-            cb(new Error('手机号码格式不正确'))
+            return cb()
+            // cb(new Error('手机号码格式不正确'))
         };
         return {
             getcode_show: true,
@@ -172,7 +176,7 @@ export default {
             findback_form: {
                 userortel: '',
                 password: '',
-                vercode:'',
+                vercode: '',
             },
             login_rules: {
                 userortel: [
@@ -194,54 +198,53 @@ export default {
         }
     },
     methods: {
-        findback(){
+        findback() {
             this.$refs.findback_form.validate(valid => {
                 if (!valid)
                     return;
-                else if(this.findback_form.vercode=='')
+                else if (this.findback_form.vercode == '')
                     return;
-                else{
+                else {
                     console.log(111);
                 }
             })
         },
-        zhuce(){
+        zhuce() {
             this.$refs.reg_form.validate(valid => {
                 if (!valid)
                     return;
-                else{
-                    if(this.reg_form.vercode=='')
+                else {
+                    if (this.reg_form.vercode == '')
                         return;
-                    else{
+                    else {
                         this.$axios.request({
-                            method:'POST',
-                            url:'/api/user/register/test',
-                            data:{
-                                username:this.reg_form.username,
-                                password:this.reg_form.password,
-                                vercode:this.reg_form.vercode,
-                                telephone:this.reg_form.telephone
+                            method: 'POST',
+                            url: '/api/user/register/test',
+                            data: {
+                                username: this.reg_form.username,
+                                password: this.reg_form.password,
+                                vercode: this.reg_form.vercode,
+                                telephone: this.reg_form.telephone
                             }
-                        }).then((res)=>{
+                        }).then((res) => {
                             // console.log(res.status);
-                            if(res.data.status==200)
-                            {
+                            if (res.data.status == 200) {
                                 this.$message({
-                                message: '注册成功',
-                                type: 'success'
+                                    message: '注册成功',
+                                    type: 'success'
                                 })
-                            this.target = 1;
-                            // 页面变为登录页面
-                            }else{
+                                this.target = 1;
+                                // 页面变为登录页面
+                            } else {
                                 this.$message({
-                                message: res.data.msg,
-                                type: 'error'
+                                    message: res.data.msg,
+                                    type: 'error'
                                 })
-                            
+
                             }
-                            
+
                         })
-                
+
                     }
                 }
             })
@@ -260,36 +263,17 @@ export default {
 
         },
         async login() {
-
-            this.$axios.post("/api/user/login", this.login_form).then((res) => {
-                console.log(res.status);
-                //200登录成功
-                if (res.data.code != 200) {
-                    return this.$message({
-                        message: res.data.msg,
-                        type: 'error '
-                    })
-                } else {
-                    this.$message({
-                        message: '登录成功',
-                        type: 'success'
-                    })
-
-                    window.localStorage.setItem("token", res.data.token);
-
-                    if (res.data.role == 0)
-                        this.$router.push('/user')
-                    else
-                        this.$router.push('/manage')
-                }
-            }).catch(() => {
-                // console.log(res.response.data);
-                this.$message({
-                    message: "网络故障",
-                    type: 'error'
-                })
+            const res = await userLogin(this.login_form)
+            console.log(res)
+            this.$store.commit('user/setUserInfo', {
+                token: res.token,
+                role: res.role,
             })
-
+            const userInfo = this.$store.getters.userInfo
+            if (userInfo.role == 0)
+                this.$router.push('/user')
+            else
+                this.$router.push('/manage')
         },
 
         // 获取验证码
@@ -312,15 +296,15 @@ export default {
                     telephone: this.reg_form.telephone
                 }
             }).then(() => {
-                
-                this.$message({
-                        message: '验证码发送成功',
-                        type: 'success'
-                    })
 
-                
-                    
-                
+                this.$message({
+                    message: '验证码发送成功',
+                    type: 'success'
+                })
+
+
+
+
             })
         },
         set_interval() {

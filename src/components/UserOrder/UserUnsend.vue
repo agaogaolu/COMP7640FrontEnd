@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import { userUnsendChange, userUnsendDel, userUnsendgGet } from '@/api/user';
+
 export default {
     created() {
         this.getdata()
@@ -76,13 +78,10 @@ export default {
         }
     },
     methods: {
-        getdata() {
-            this.$axios.get("/api/user/unsend").then((res) => {
-                console.log(res.data);
-                if (res.data.status == 200) {
-                    this.tabledata = res.data.tabledata;
-                }
-            })
+        async getdata() {
+
+            const { tabledata } = await userUnsendgGet()
+            this.tabledata = tabledata
         },
         showdia_ch(row) {
             this.form_change.order_id = row.order_id;
@@ -90,35 +89,35 @@ export default {
             this.form_change.cons_addre = row.cons_addre;
             this.dialog_chnage = true;
         },
-        change() {
-            this.$axios.post("/api/user/unsend", this.form_change).then((res) => {
-                console.log(res.data);
-                if (res.data.status == 200) {
-                    this.$message({
-                        message: res.data.msg,
-                        type: "success"
-                    })
-                    this.getdata()
-                    this.dialog_chnage = false;
-                }
-            })
+        async change() {
+            console.log(this.form_change)
+            const res = await userUnsendChange(this.form_change)
+            console.log(res)
+            if (res.status == 200) {
+                this.$message({
+                    message: res.message,
+                    type: "success"
+                })
+            } else {
+                this.getdata();
+                this.dialog = false;
+            }
         },
         showdia_dl(row) {
             this.delete_id = row.order_id;
             this.dialog_delete = true;
         },
-        order_delete() {
-            this.$axios.delete("/api/user/unsend", { data: { delete_id: this.delete_id } }).then((res) => {
-                console.log(res.data);
-                if (res.data.status == 200) {
-                    this.$message({
-                        message: res.data.msg,
-                        type: "success"
-                    })
-                    this.getdata()
-                    this.dialog_delete = false;
-                }
-            })
+        async order_delete() {
+            const res = await userUnsendDel(this.delete_id)
+            console.log(res)
+            if (res.status == 200) {
+                this.$message({
+                    message: res.msg,
+                    type: "success"
+                })
+                this.getdata()
+                this.dialog_delete = false;
+            }
         }
     }
 }
