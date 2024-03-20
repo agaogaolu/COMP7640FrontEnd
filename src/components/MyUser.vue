@@ -45,7 +45,7 @@
 
                     </el-submenu>
 
-                    <el-submenu>
+                    <el-submenu index="3">
                         <template slot="title">
                             <i class="el-icon-s-home"></i>
                             <span>个人中心</span>

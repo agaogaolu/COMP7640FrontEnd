@@ -11,13 +11,24 @@
                 </el-table-column>
                 <el-table-column prop="sale" label="月销量" width="200" align="center">
                 </el-table-column>
-                <el-table-column prop="operate" label="操作" width="208" align="center">
-                    <template slot-scope="scope">
-                        <el-button icon="el-icon-plus" size="small" type="success" @click="showdia(scope.row)">订餐
+                <el-table-column label="评分" width="200" align="center">
+                    <div class="block">
+                        <el-rate :value="3" disabled></el-rate>
+                    </div>
+                </el-table-column>
+                <el-table-column prop="buy" label="操作" width="208" align="center">
+                    <template v-slot="{ row }">
+                        <el-button v-if="!row.buy" icon="el-icon-plus" size="small" type="success"
+                            @click="handler(row)">加入购物车
+                        </el-button>
+                        <el-button v-else size="small" type="danger" @click="handler(row)">取消
                         </el-button>
                     </template>
                 </el-table-column>
             </el-table>
+
+
+
 
             <el-dialog title="订餐表单" :visible.sync="dialog" class="dialog" width="40%">
                 <div>
@@ -60,6 +71,11 @@
                 </div>
             </el-dialog>
         </div>
+        <div class="footer">
+            <div>总计：（6）件商品 共600元</div>
+            <el-button type="warning" @click="checkOut">去结算</el-button>
+        </div>
+
     </div>
 </template>
 
@@ -88,6 +104,12 @@ export default {
         async getdata() {
             const { tabledata } = await userGetData()
             this.tableData = tabledata
+            this.tableData = this.tableData.map(element => {
+                let i = 0
+                return { ...element, buy: false, id: ++i }
+
+            });
+            console.log(this.tableData)
         },
         showdia(row) {
             this.form.shop_name = row.shop_name;
@@ -107,8 +129,33 @@ export default {
                 this.getdata();
             }
             console.log(res)
+        },
+        handler(obj) {
+            obj.buy = !obj.buy
+            // console.log(obj)
+            // data.buy= !data.buy
+        },
+        checkOut() {
+            let cart = []
+            this.tableData.map(e => {
+                if (e.buy === true) {
+                    cart.push(e.shop_name)
+                    
+                }
+            })
+            console.log(cart)
+
         }
-    }
+    },
+    watch: {
+        tableData: {
+            deep: true,
+            handler() {
+                // console.log(newVal)
+            }
+
+        }
+    },
 }
 </script>
 
@@ -124,14 +171,27 @@ export default {
 }
 
 .body {
-    width: 62%;
+    width: 80%;
     margin: auto;
     margin-top: 30px;
 }
 
-/* .table {
-    margin-left: 120px;
-} */
+.table {
+    margin: 0 auto;
+    /* 这会使表格在.body容器中居中 */
+}
+
+.footer {
+    display: flex;
+    margin: 5% 20%;
+    justify-content: right;
+    align-items: center;
+}
+
+.footer>* {
+    margin: 0 20px;
+}
+
 
 .dialog {
     /* width: 700px; */
