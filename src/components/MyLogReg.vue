@@ -17,7 +17,13 @@
                         <el-input v-model="login_form.password" show-password spellcheck="false" placeholder="密码">
                         </el-input>
                     </el-form-item>
-
+                    <el-form-item prop="role">
+                        <el-select v-model="login_form.role" placeholder="Plz choose your role">
+                            <el-option v-for="item in role_options" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
 
                     <!-- 按钮 -->
                     <el-form-item class="btns">
@@ -166,6 +172,7 @@ export default {
             login_form: {
                 userortel: '',
                 password: '',
+                role:'',
             },
             reg_form: {
                 username: '',
@@ -178,6 +185,7 @@ export default {
                 password: '',
                 vercode: '',
             },
+            role_options: [{ label: "Users", value: "0" }, { label: "Admin", value: "1" }],
             login_rules: {
                 userortel: [
                     { required: true, message: '请输入电话', trigger: 'blur' }, { validator: checkMobile, trigger: 'blur' }],
@@ -343,7 +351,7 @@ export default {
 }
 
 .login_box {
-    height: 300px;
+    height: 350px;
     width: 450px;
     background-color: white;
     border-radius: 3px;
