@@ -65,17 +65,12 @@
                             placeholder="手机号码"></el-input>
                     </el-form-item>
 
-                    <el-form-item prop="vercode">
-                        <el-input v-model="reg_form.vercode" spellcheck="false" placeholder="验证码" style="width:230px">
-                        </el-input>
-                        <span style="width:120px;font-size: 16px;cursor: pointer;" @click="send_vercode_pre()"
-                            v-show="getcode_show">
-                            获取验证码
-                        </span>
-
-                        <span style="width:120px;font-size: 16px;cursor: pointer;" v-show="!getcode_show">
-                            {{ time_count }}s后重新获取
-                        </span>
+                    <el-form-item prop="role">
+                        <el-select v-model="reg_form.role" placeholder="Plz choose your role">
+                            <el-option v-for="item in role_options" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <!-- 按钮 -->
                     <el-form-item class="btns">
@@ -141,7 +136,7 @@
 </template>
 
 <script>
-import { userLogin } from '@/api/login';
+import { userLogin, userReg } from '@/api/login';
 
 export default {
     name: 'MyLogin',
@@ -172,13 +167,13 @@ export default {
             login_form: {
                 userortel: '',
                 password: '',
-                role:'',
+                role: '',
             },
             reg_form: {
                 username: '',
                 password: '',
                 telephone: '',
-                vercode: ''
+                role: ''
             },
             findback_form: {
                 userortel: '',
@@ -217,7 +212,7 @@ export default {
                 }
             })
         },
-        zhuce() {
+        async zhuce() {
             this.$refs.reg_form.validate(valid => {
                 if (!valid)
                     return;
@@ -225,37 +220,15 @@ export default {
                     if (this.reg_form.vercode == '')
                         return;
                     else {
-                        this.$axios.request({
-                            method: 'POST',
-                            url: '/api/user/register/test',
-                            data: {
-                                username: this.reg_form.username,
-                                password: this.reg_form.password,
-                                vercode: this.reg_form.vercode,
-                                telephone: this.reg_form.telephone
-                            }
-                        }).then((res) => {
-                            // console.log(res.status);
-                            if (res.data.status == 200) {
-                                this.$message({
-                                    message: '注册成功',
-                                    type: 'success'
-                                })
-                                this.target = 1;
-                                // 页面变为登录页面
-                            } else {
-                                this.$message({
-                                    message: res.data.msg,
-                                    type: 'error'
-                                })
-
-                            }
-
-                        })
-
+                        this.register()
+                        // console.log(res.status);
                     }
                 }
             })
+        },
+        async register() {
+            await userReg(this.reg_form)
+
         },
         change(id) {
             this.target = id;
