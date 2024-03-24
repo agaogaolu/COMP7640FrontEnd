@@ -37,7 +37,7 @@ instance.interceptors.response.use(function (response) {
     console.log(res)
     // console.log(response.status == 200)
 
-    if (response.status !== 200) {
+    if (response.data.status !== 200) {
         // 给错误提示, Toast 默认是单例模式，后面的 Toast调用了，会将前一个 Toast 效果覆盖
         // 同时只能存在一个 Toast
         Vue.prototype.$message({

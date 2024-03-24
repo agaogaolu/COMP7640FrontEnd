@@ -245,10 +245,11 @@ export default {
         },
         async login() {
             const res = await userLogin(this.login_form)
+            console.log("res")
             console.log(res)
             this.$store.commit('user/setUserInfo', {
                 token: res.token,
-                role: res.role,
+                role: this.login_form.role,
             })
             const userInfo = this.$store.getters.userInfo
             if (userInfo.role == 0)

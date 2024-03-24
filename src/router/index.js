@@ -23,7 +23,7 @@ export default new VueRouter({
             component: user,
             meta: {
                 title: "用户界面"
-            }
+            },
         },
         {
             path: '/manage',

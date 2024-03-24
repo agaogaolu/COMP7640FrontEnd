@@ -4,17 +4,22 @@
             Welcome!
         </div>
         <div class="body">
-            <el-table :data="tableData" style="width: 100%" class="table" border>
-                <el-table-column prop="shop_name" label="店铺名称" width="200" align="center">
-                </el-table-column>
-                <el-table-column prop="price" label="产品单价" width="200" align="center">
-                </el-table-column>
-                <el-table-column prop="sale" label="月销量" width="200" align="center">
+            <el-table v-if="!showVendorPage" :data="vendorData" style="width: 100%" class="table" border>
+                <el-table-column label="Shop Name" width="200" align="center">
+                    <template slot-scope="scope">
+                        <!-- 在这里，我们使用一个 <div> 或者可以是任意的可点击元素，如 <span>，并在该元素上绑定点击事件 -->
+                        <div @click="showshowVendorPage(scope.row)" style="cursor: pointer;">
+                            {{ scope.row.vendor_name }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="评分" width="200" align="center">
-                    <div class="block">
-                        <el-rate :value="3" disabled></el-rate>
-                    </div>
+                    <template slot-scope="scope">
+                        <div class="block">
+                            <el-rate :value="Number(scope.row.score)" disabled></el-rate>
+                        </div>
+                    </template>
+
                 </el-table-column>
                 <el-table-column prop="buy" label="操作" width="208" align="center">
                     <template v-slot="{ row }">
@@ -26,6 +31,8 @@
                     </template>
                 </el-table-column>
             </el-table>
+
+            <UserCart v-else :vendorId="vendorId" @backVenderList="backVenderList"></UserCart>
 
 
 
@@ -71,25 +78,30 @@
                 </div>
             </el-dialog>
         </div>
-        <div class="footer">
-            <div>总计：（6）件商品 共600元</div>
+        <div v-if="!showVendorPage" class="footer">
+            <div>总计：（{{ price_count.totalNum }}）件商品 共{{ price_count.totalPrice }}元</div>
             <el-button type="warning" @click="checkOut">去结算</el-button>
         </div>
-
+        <!-- <el-button @click="showMenu()">ShowMenu</el-button> -->
     </div>
 </template>
 
 <script>
-import { userAddData, userGetData } from '@/api/user';
-
+import { userAddData, userGetVendor } from '@/api/user'
+import UserCart from '@/components/UserOrder/UserCart.vue'
 export default {
+    components: { UserCart },
     created() {
         this.getdata();
+
     },
     data() {
         return {
-            tableData: [],
+            stateCartList: [],
+            vendorData: [],
+            vendorId: '',
             dialog: false,
+            showVendorPage: false,
             form: {
                 shop_name: '',
                 order_money: '',
@@ -97,19 +109,31 @@ export default {
                 // cons_phone: '',
                 cons_name: '',
                 cons_addre: '',
-            }
+            },
+            products_list: [
+                {
+                    "inventory": 200,
+                    "price": 99,
+                    "product_id": 100,
+                    "product_name": "t-shirt",
+                    "buy": false
+                },
+                {
+                    "inventory": 200,
+                    "price": 199,
+                    "product_id": 101,
+                    "product_name": "sneaker",
+                    "buy": false
+                }
+            ],
         }
     },
     methods: {
         async getdata() {
-            const { tabledata } = await userGetData()
-            this.tableData = tabledata
-            this.tableData = this.tableData.map(element => {
-                let i = 0
-                return { ...element, buy: false, id: ++i }
+            const { vendor } = await userGetVendor()
+            this.vendorData = vendor
 
-            });
-            console.log(this.tableData)
+            console.log(this.vendorData)
         },
         showdia(row) {
             this.form.shop_name = row.shop_name;
@@ -140,12 +164,41 @@ export default {
             this.tableData.map(e => {
                 if (e.buy === true) {
                     cart.push(e.shop_name)
-                    
+
                 }
             })
             console.log(cart)
 
-        }
+        },
+        showMenu() {
+            this.showVendorPage = false
+        },
+        showshowVendorPage(row) {
+            this.showVendorPage = true
+            this.vendorId = String(row.vendor_id)
+            console.log(this.vendorId)
+        },
+        backVenderList() {
+            this.showVendorPage = false
+            this.stateCartList = this.$store.state.cart.cartList
+        },
+
+    },
+    computed: {
+        price_count() {
+            let totalPrice = 0
+            let totalNum = 0
+            Object.keys(this.stateCartList).forEach(vendorId => {
+                const vendor = this.stateCartList[vendorId];
+                vendor.products.forEach(product => {
+                    if (product.buy) {
+                        totalPrice += product.price;
+                        totalNum += 1
+                    }
+                });
+            });
+            return { totalPrice, totalNum }
+        },
     },
     watch: {
         tableData: {

@@ -1,8 +1,16 @@
 import request from '@/utils/request'
 
-export const userGetData = () => {
-    return request.get('/api/user/shop')
+export const userGetVendor = () => {
+    return request.get('/api/user/vendor')
 }
+
+export const userGetProduct = (data) => {
+    return request.post('/api/user/product',{
+        'vendor_id': data
+    })
+}
+
+
 
 export const userAddData = (data) => {
     return request.post('/api/user/addorder', {
