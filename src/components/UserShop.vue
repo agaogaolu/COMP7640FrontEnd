@@ -4,7 +4,7 @@
             Welcome!
         </div>
         <div class="body">
-            <el-table v-if="!showVendorPage" :data="vendorData" style="width: 100%" class="table" border>
+            <el-table v-if="showVendorPage === 1" :data="vendorData" style="width: 100%" class="table" align="center" border>
                 <el-table-column label="Shop Name" width="200" align="center">
                     <template slot-scope="scope">
                         <!-- 在这里，我们使用一个 <div> 或者可以是任意的可点击元素，如 <span>，并在该元素上绑定点击事件 -->
@@ -32,8 +32,9 @@
                 </el-table-column>
             </el-table>
 
-            <UserCart v-else :vendorId="vendorId" @backVenderList="backVenderList"></UserCart>
-
+            <UserCart v-if="showVendorPage === 2" :vendorId="vendorId" @backVenderList="backVenderList"></UserCart>
+            
+            <UserPay v-if="showVendorPage === 3" :vendorId="vendorId" @backVenderList="backVenderList"></UserPay>
 
 
 
@@ -78,19 +79,20 @@
                 </div>
             </el-dialog>
         </div>
-        <div v-if="!showVendorPage" class="footer">
+        <div v-if="showVendorPage === 1" class="footer">
             <div>总计：（{{ price_count.totalNum }}）件商品 共{{ price_count.totalPrice }}元</div>
-            <el-button type="warning" @click="checkOut">去结算</el-button>
+            <el-button type="warning" @click="checkOut">Pay All</el-button>
         </div>
-        <!-- <el-button @click="showMenu()">ShowMenu</el-button> -->
+
     </div>
 </template>
 
 <script>
 import { userAddData, userGetVendor } from '@/api/user'
 import UserCart from '@/components/UserOrder/UserCart.vue'
+import UserPay from '@/components/UserOrder/UserPay.vue'
 export default {
-    components: { UserCart },
+    components: { UserCart,UserPay },
     created() {
         this.getdata();
 
@@ -101,7 +103,7 @@ export default {
             vendorData: [],
             vendorId: '',
             dialog: false,
-            showVendorPage: false,
+            showVendorPage: 1,
             form: {
                 shop_name: '',
                 order_money: '',
@@ -110,22 +112,7 @@ export default {
                 cons_name: '',
                 cons_addre: '',
             },
-            products_list: [
-                {
-                    "inventory": 200,
-                    "price": 99,
-                    "product_id": 100,
-                    "product_name": "t-shirt",
-                    "buy": false
-                },
-                {
-                    "inventory": 200,
-                    "price": 199,
-                    "product_id": 101,
-                    "product_name": "sneaker",
-                    "buy": false
-                }
-            ],
+    
         }
     },
     methods: {
@@ -160,26 +147,17 @@ export default {
             // data.buy= !data.buy
         },
         checkOut() {
-            let cart = []
-            this.tableData.map(e => {
-                if (e.buy === true) {
-                    cart.push(e.shop_name)
-
-                }
-            })
-            console.log(cart)
-
+            
+            this.showVendorPage = 3
         },
-        showMenu() {
-            this.showVendorPage = false
-        },
+
         showshowVendorPage(row) {
-            this.showVendorPage = true
+            this.showVendorPage = 2
             this.vendorId = String(row.vendor_id)
             console.log(this.vendorId)
         },
         backVenderList() {
-            this.showVendorPage = false
+            this.showVendorPage = 1
             this.stateCartList = this.$store.state.cart.cartList
         },
 

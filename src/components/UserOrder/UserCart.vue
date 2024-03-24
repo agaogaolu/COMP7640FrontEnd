@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="cartList" style="width: 100%" class="table" border>
+    <el-table :data="cartList" style="width: 100%" class="table" align="center"  border>
       <el-table-column prop="product_name" label="Prodct Name" width="200" align="center">
       </el-table-column>
       <el-table-column prop="price" label="Price" width="200" align="center">
