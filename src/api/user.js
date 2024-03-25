@@ -5,7 +5,7 @@ export const userGetVendor = () => {
 }
 
 export const userGetProduct = (data) => {
-    return request.post('/api/user/product',{
+    return request.post('/api/user/product', {
         'vendor_id': data
     })
 }
@@ -50,4 +50,10 @@ export const userSendingGet = () => {
     return request.get('/api/user/sending');
 }
 
+export const userAddOrder = (data) => {
+    return request.post('/api/user/addorder', {
+        'customer_id':data.customer_id,
+        'orderlist': data.orderlist
 
+    })
+}

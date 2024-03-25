@@ -7,7 +7,7 @@
             </el-table-column>
             <el-table-column prop="inventory" label="Inventory" width="200" align="center">
             </el-table-column>
-            <el-table-column prop="vendorId" label="Shop_Id" width="200" align="center" >
+            <el-table-column prop="vendorId" label="Shop_Id" width="200" align="center">
             </el-table-column>
             <el-table-column prop="buy" label="Add Cart?" width="208" align="center">
                 <template v-slot="{ row }">
@@ -22,30 +22,50 @@
         <div v-if="true" class="footer">
             <div>总计：（{{ price_count.totalNum }}）件商品 共{{ price_count.totalPrice }}元</div>
             <el-button type="warning" @click="backVenderList()">Back Vender List</el-button>
-            <el-button type="primary" @click="backVenderList()">Pay For All</el-button>
+            <el-button type="primary" @click="payForAll()">Pay For All</el-button>
         </div>
     </div>
 </template>
 
 
 <script>
+import { userAddOrder } from '@/api/user'
 export default {
+
     data() {
         return {
             stateCartList: [],
-            cartList:[]
+            cartList: [],
+            userInfo:'',
+
         }
     },
     methods: {
         backVenderList() {
-
             this.$emit('backVenderList',)
+        },
+        async payForAll() {
+            const orderlist = this.cartList.map(e => {
+                return {
+                    "product_id": e.product_id,
+                    "vendor_id": Number(e.vendorId),
+                    "purchase_count": 1
+                }
+            })
+            let data = {
+                'customer_id': this.userInfo.customerId,
+                'orderlist': orderlist
+            }
+            console.log(data)
+            const res = await userAddOrder(data)
+            console.log(res)
+
         }
     },
     created() {
-        
+
         this.stateCartList = this.$store.state.cart.cartList
-        
+
     },
     computed: {
         price_count() {
@@ -56,9 +76,9 @@ export default {
                 vendor.products.forEach(product => {
                     if (product.buy) {
                         this.cartList.push({
-                        ...product,
-                        vendorId:vendorId
-                    })
+                            ...product,
+                            vendorId: vendorId
+                        })
                         totalPrice += product.price;
                         totalNum += 1
                     }
@@ -67,9 +87,11 @@ export default {
             console.log(this.cartList)
             return { totalPrice, totalNum }
         },
+
     },
-    mounted(){
-        
+    mounted() {
+        this.userInfo = this.$store.getters.userInfo
+        console.log(this.userInfo)
     },
 }
 </script>

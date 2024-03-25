@@ -245,13 +245,17 @@ export default {
         },
         async login() {
             const res = await userLogin(this.login_form)
-            console.log("res")
+            // console.log("res")
             console.log(res)
             this.$store.commit('user/setUserInfo', {
                 token: res.token,
                 role: this.login_form.role,
+                ...(res.vendor_id ? { vendorId: res.vendor_id } : {}),
+                ...(res.customer_id ? { customerId: res.customer_id } : {})
             })
+
             const userInfo = this.$store.getters.userInfo
+            console.log(userInfo)
             if (userInfo.role == 0)
                 this.$router.push('/user')
             else

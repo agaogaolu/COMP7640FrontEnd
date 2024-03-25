@@ -17,11 +17,11 @@ instance.interceptors.request.use(function (config) {
     
     // 只要有token，就在请求时携带，便于请求需要授权的接口
     const userInfo = store.getters.userInfo
-    console.log(userInfo.token)
+    // console.log(userInfo.token)
     if (userInfo.token) {
         config.headers.token = userInfo.token
     }
-
+    // console.log(config)
     return config
 }, function (error) {
     // 对请求错误做些什么
@@ -33,8 +33,8 @@ instance.interceptors.response.use(function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么 (默认axios会多包装一层data，需要响应拦截器中处理一下)
     const res = response.data
-    console.log(response)
-    console.log(res)
+    // console.log(response)
+    // console.log(res)
     // console.log(response.status == 200)
 
     if (response.data.status !== 200) {

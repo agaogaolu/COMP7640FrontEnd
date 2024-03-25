@@ -59,7 +59,7 @@
                     <manageshop></manageshop>
                 </div>
 
-                <div id="manageserver" v-show="active == 2">
+                <!-- <div id="manageserver" v-show="active == 2">
                     <manageserver></manageserver>
                 </div>
 
@@ -84,7 +84,7 @@
 
                 <div id="orderunsend" v-show="active == 8">
                     <orderunsend></orderunsend>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

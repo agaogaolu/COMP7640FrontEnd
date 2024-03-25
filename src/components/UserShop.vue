@@ -101,7 +101,7 @@ export default {
         return {
             stateCartList: [],
             vendorData: [],
-            vendorId: '',
+            vendorId: null,
             dialog: false,
             showVendorPage: 1,
             form: {
@@ -153,7 +153,7 @@ export default {
 
         showshowVendorPage(row) {
             this.showVendorPage = 2
-            this.vendorId = String(row.vendor_id)
+            this.vendorId = row.vendor_id
             console.log(this.vendorId)
         },
         backVenderList() {

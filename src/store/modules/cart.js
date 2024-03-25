@@ -15,7 +15,6 @@ export default {
                     products: products
                 }
             }
-            console.log(products)
             console.log(state.cartList)
         }
     },

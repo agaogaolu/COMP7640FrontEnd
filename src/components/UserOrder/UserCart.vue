@@ -34,14 +34,15 @@ import { userGetProduct } from '@/api/user';
 export default {
   props: {
     vendorId: {
-      type: String,
+      type: Number,
       required: true
     },
   },
   data() {
     return {
       cartList: [],
-      stateCartList: []
+      stateCartList: [],
+      userInfo:'',
     }
   },
   computed: {
@@ -94,7 +95,7 @@ export default {
     }
   },
   mounted() {
-
+    this.userInfo = this.$store.getters.userInfo
     this.getData()
   }
 }
