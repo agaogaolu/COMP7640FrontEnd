@@ -29,3 +29,18 @@ export const vendorDelProduct = (id) => {
     })
 }
 
+export const vendorOrder = (id) => {
+    return request.post('/api/vendor/vieworder', {
+        "vendor_id": id
+    })
+}
+
+export const vendorOrderUpdate = (data) => {
+    return request.post('/api/vendor/updatestatus', {
+        "order_id": data.order_id,
+        "new_status": data.dispatcher_status
+    })
+}
+
+
+

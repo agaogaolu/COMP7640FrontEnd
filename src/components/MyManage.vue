@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="header">
-            &nbsp;&nbsp; 哈尔滨工程大学外卖平台---后台管理
+            &nbsp;&nbsp; Online Shopping system--Backend
         </div>
         <div class="body">
             <div class="liner">
@@ -10,10 +10,10 @@
 
                     <el-menu-item index="1">
                         <i class="el-icon-s-shop"></i>
-                        <span slot="title">店铺管理</span>
+                        <span slot="title">Shop Management</span>
                     </el-menu-item>
 
-                    <el-menu-item index="2">
+                    <!-- <el-menu-item index="2">
                         <i class="el-icon-s-custom"></i>
                         <span slot="title">服务员管理</span>
                     </el-menu-item>
@@ -29,19 +29,25 @@
                             <i class="el-icon-s-promotion"></i>
                             <span>物流管理</span>
                         </template>
-                        <el-menu-item-group>
+<el-menu-item-group>
 
-                            <el-menu-item index="4">已完成</el-menu-item>
-                            <el-menu-item index="5">进行中</el-menu-item>
-                        </el-menu-item-group>
+    <el-menu-item index="4">已完成</el-menu-item>
+    <el-menu-item index="5">进行中</el-menu-item>
+</el-menu-item-group>
 
-                    </el-submenu>
+</el-submenu> -->
 
 
-                    <el-submenu index="100">
+                    <el-menu-item index="8">
+                        <i class="el-icon-s-shop"></i>
+                        <span slot="title">Ordere Management</span>
+                    </el-menu-item>
+
+
+                    <!-- <el-submenu index="100">
                         <template slot="title">
                             <i class="el-icon-s-order"></i>
-                            <span>订单管理</span>
+                            <span>Ordere Management</span>
                         </template>
                         <el-menu-item-group>
 
@@ -50,7 +56,7 @@
                             <el-menu-item index="8">未发货订单</el-menu-item>
                         </el-menu-item-group>
 
-                    </el-submenu>
+                    </el-submenu> -->
 
                 </el-menu>
             </div>
@@ -81,10 +87,10 @@
                 <div id="ordersending" v-show="active == 7">
                     <ordersending></ordersending>
                 </div>
-
-                <div id="orderunsend" v-show="active == 8">
-                    <orderunsend></orderunsend>
-                </div> -->
+-->
+                <div id="manageorder" v-show="active == 8">
+                    <manageorder></manageorder>
+                </div>
             </div>
         </div>
     </div>
@@ -99,6 +105,7 @@ import wuliuunended from '@/components/ManageWuliu/WuliuUnended.vue'
 import ordersended from '@/components/ManageOrder/BeSended.vue'
 import ordersending from '@/components/ManageOrder/BeSending.vue'
 import orderunsend from '@/components/ManageOrder/UnSend.vue'
+import manageorder from '@/components/ManageOrder/ManageOrder.vue'
 export default {
     components: {
         manageshop: manageshop,
@@ -108,7 +115,8 @@ export default {
         wuliuunended: wuliuunended,
         ordersended: ordersended,
         ordersending: ordersending,
-        orderunsend: orderunsend
+        orderunsend: orderunsend,
+        manageorder:manageorder
     },
     data() {
         return {
