@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div  style="margin-bottom: 20px;">
+    <div style="margin-bottom: 20px;">
       <el-select style="margin: 5px;" v-model="selectedFilters.colour" placeholder="Select colour">
         <el-option v-for="colour in tagList.colour" :key="colour" :label="colour" :value="colour"></el-option>
       </el-select>
-      <el-select style="margin: 5px;"  v-model="selectedFilters.thickness" placeholder="Select thickness">
+      <el-select style="margin: 5px;" v-model="selectedFilters.thickness" placeholder="Select thickness">
         <el-option v-for="thickness in tagList.thickness" :key="thickness" :label="thickness"
           :value="thickness"></el-option>
       </el-select>
-      <el-select style="margin: 5px;"  v-model="selectedFilters.size" placeholder="Select size">
+      <el-select style="margin: 5px;" v-model="selectedFilters.size" placeholder="Select size">
         <el-option v-for="size in tagList.size" :key="size" :label="size" :value="size"></el-option>
       </el-select>
       <el-button @click="applyFilter">Apply Filter</el-button>
@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      filterStatus:false,
+      filterStatus: false,
       cartList: [],
       stateCartList: [],
       userInfo: '',
@@ -123,7 +123,7 @@ export default {
   methods: {
     async getData() {
       this.stateCartList = this.$store.state.cart.cartList
-      if (!this.stateCartList[this.vendorId] || !this.filterStatus) {
+      if (!this.stateCartList[this.vendorId]) {
         const { product } = await userGetProduct(this.vendorId)
         this.cartList = product.map(e => ({
           ...e,
@@ -162,9 +162,18 @@ export default {
         this.cartList = [];
       }
     },
-    async resetFilter(){
-      this.filterStatus = false
-      this.getData()
+    async resetData() {
+      const { product } = await userGetProduct(this.vendorId)
+      this.cartList = product.map(e => ({
+        ...e,
+        ...(e.purchase_count ? { purchase_count: e.purchase_count } : { purchase_count: 1 }),
+        buy: false
+      }))
+    },
+    resetFilter() {
+      // this.filterStatus = false
+      // this.$store.commit('cart/setCart', { vendorId: this.vendorId, products: [] })
+      this.resetData()
     }
 
   },

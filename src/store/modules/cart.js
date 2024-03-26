@@ -16,6 +16,16 @@ export default {
                 }
             }
             console.log(state.cartList)
+        },
+        deleteItem(state, { vendorId, products }) {
+            state.cartList = {
+                ...state.cartList,
+                [vendorId]: {
+
+                    products: products
+                }
+            }
+            console.log(state.cartList)
         }
     },
     actions: {
