@@ -85,7 +85,8 @@ export default {
             console.log(this.tableData)
         },
         show_dialog(row) {
-            this.form.order_id = row.order_id;
+            console.log(row)
+            this.form.order_id = row.orderid;
             this.dialog = true;
         },
         async update() {

@@ -38,7 +38,7 @@ export default {
         return {
             stateCartList: [],
             cartList: [],
-            userInfo:'',
+            userInfo: '',
 
         }
     },
@@ -68,8 +68,12 @@ export default {
                     type: "success"
                 })
             }
-
-        }
+        },
+        handler(    ) {
+            // row.buy = !row.buy
+            // this.stateCartList = this.cartList
+            // console.log(this.price_count)
+        },
     },
     created() {
 
@@ -88,7 +92,7 @@ export default {
                             ...product,
                             vendorId: vendorId
                         })
-                        totalPrice += product.price*product.purchase_count;
+                        totalPrice += product.price * product.purchase_count;
                         totalNum += product.purchase_count
                     }
                 });

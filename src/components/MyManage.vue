@@ -138,7 +138,7 @@ export default {
 
 .liner {
     width: 15%;
-    height: 100%;
+    height: 100vmax;
     background-color: #545c64;
 }
 
