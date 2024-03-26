@@ -5,9 +5,11 @@
             </el-table-column>
             <el-table-column prop="price" label="Price" width="200" align="center">
             </el-table-column>
-            <el-table-column prop="inventory" label="Inventory" width="200" align="center">
+            <el-table-column prop="inventory" label="Inventory" width="100" align="center">
             </el-table-column>
-            <el-table-column prop="vendorId" label="Shop_Id" width="200" align="center">
+            <el-table-column prop="vendorId" label="Shop_Id" width="100" align="center">
+            </el-table-column>
+            <el-table-column prop="purchase_count" label="Count" width="100" align="center">
             </el-table-column>
             <el-table-column prop="buy" label="Add Cart?" width="208" align="center">
                 <template v-slot="{ row }">
@@ -49,7 +51,7 @@ export default {
                 return {
                     "product_id": e.product_id,
                     "vendor_id": Number(e.vendorId),
-                    "purchase_count": 1
+                    "purchase_count": e.purchase_count
                 }
             })
             let data = {
@@ -58,7 +60,14 @@ export default {
             }
             console.log(data)
             const res = await userAddOrder(data)
-            console.log(res)
+            if (res.status === 200) {
+                this.dialog = false;
+                this.backVenderList()
+                this.$message({
+                    message: res.msg,
+                    type: "success"
+                })
+            }
 
         }
     },
@@ -79,8 +88,8 @@ export default {
                             ...product,
                             vendorId: vendorId
                         })
-                        totalPrice += product.price;
-                        totalNum += 1
+                        totalPrice += product.price*product.purchase_count;
+                        totalNum += product.purchase_count
                     }
                 });
             });

@@ -170,8 +170,8 @@ export default {
                 const vendor = this.stateCartList[vendorId];
                 vendor.products.forEach(product => {
                     if (product.buy) {
-                        totalPrice += product.price;
-                        totalNum += 1
+                        totalPrice += product.price*product.purchase_count;
+                        totalNum += product.purchase_count
                     }
                 });
             });

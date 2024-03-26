@@ -21,7 +21,8 @@ instance.interceptors.request.use(function (config) {
     if (userInfo.token) {
         config.headers.token = userInfo.token
     }
-    // console.log(config)
+    console.log("11111")
+    console.log(config)
     return config
 }, function (error) {
     // 对请求错误做些什么
@@ -34,12 +35,13 @@ instance.interceptors.response.use(function (response) {
     // 对响应数据做点什么 (默认axios会多包装一层data，需要响应拦截器中处理一下)
     const res = response.data
     // console.log(response)
-    // console.log(res)
+    // console.log(response)
     // console.log(response.status == 200)
 
     if (response.data.status !== 200) {
         // 给错误提示, Toast 默认是单例模式，后面的 Toast调用了，会将前一个 Toast 效果覆盖
         // 同时只能存在一个 Toast
+        // console.log(res)
         Vue.prototype.$message({
             message: res.msg,
             type: 'error'
@@ -47,7 +49,8 @@ instance.interceptors.response.use(function (response) {
         // 抛出一个错误的promise
         return Promise.reject(res.msg)
     }
-
+    // console.log("22222")
+    // console.log(res)
     return res
 }, function (error) {
     Vue.prototype.$message({

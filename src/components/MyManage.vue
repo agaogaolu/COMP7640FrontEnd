@@ -98,24 +98,10 @@
 
 <script>
 import manageshop from '@/components/ManageShop.vue'
-import manageserver from '@/components/ManageServer.vue'
-import managedispatcher from '@/components/ManageDispatcher.vue'
-import wuliuended from '@/components/ManageWuliu/WuliuEnded.vue'
-import wuliuunended from '@/components/ManageWuliu/WuliuUnended.vue'
-import ordersended from '@/components/ManageOrder/BeSended.vue'
-import ordersending from '@/components/ManageOrder/BeSending.vue'
-import orderunsend from '@/components/ManageOrder/UnSend.vue'
 import manageorder from '@/components/ManageOrder/ManageOrder.vue'
 export default {
     components: {
         manageshop: manageshop,
-        manageserver: manageserver,
-        managedispatcher: managedispatcher,
-        wuliuended: wuliuended,
-        wuliuunended: wuliuunended,
-        ordersended: ordersended,
-        ordersending: ordersending,
-        orderunsend: orderunsend,
         manageorder:manageorder
     },
     data() {

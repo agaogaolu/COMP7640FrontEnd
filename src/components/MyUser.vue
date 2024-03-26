@@ -28,9 +28,13 @@
                     </el-submenu> -->
                     <el-menu-item index="1">
                         <i class="el-icon-menu"></i>
-                        <span slot="title">逛店铺</span>
+                        <span slot="title">Shop</span>
                     </el-menu-item>
-
+                    <el-menu-item index="3">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">My order</span>
+                    </el-menu-item>
+<!-- 
                     <el-submenu index="2">
                         <template slot="title">
                             <i class="el-icon-setting"></i>
@@ -56,7 +60,7 @@
                             <el-menu-item index="7">修改密码</el-menu-item>
                         </el-menu-item-group>
 
-                    </el-submenu>
+                    </el-submenu> -->
 
                 </el-menu>
             </div>
@@ -64,8 +68,11 @@
                 <div id="usershop" v-show="active == 1">
                     <usershop></usershop>
                 </div>
+                <div id="userorder" v-show="active == 3">
+                    <userorders :refresh="refresh"></userorders>
+                </div>
 
-                <div id="userfinished" v-show="active == 3">
+                <!-- <div id="userfinished" v-show="active == 3">
                     <userfinished></userfinished>
                 </div>
 
@@ -83,7 +90,7 @@
 
                 <div id="changepwd" v-show="active == 7">
                     <changepwd></changepwd>
-                </div>
+                </div> -->
 
             </div>
         </div>
@@ -92,27 +99,21 @@
 
 <script>
 import usershop from '@/components/UserShop.vue'
-import userfinished from '@/components/UserOrder/UserFinished.vue'
-import usersending from '@/components/UserOrder/UserSending.vue'
-import userunsend from '@/components/UserOrder/UserUnsend.vue'
-import indimsg from '@/components/UserMsg/IndiMsg.vue'
-import changepwd from '@/components/UserMsg/ChPwd.vue'
+import userorders from '@/components/UserOrder/UserOrders.vue'
 export default {
     components: {
         usershop: usershop,
-        userfinished: userfinished,
-        usersending: usersending,
-        userunsend: userunsend,
-        indimsg: indimsg,
-        changepwd: changepwd,
+        userorders:userorders,
     },
     data() {
         return {
+            refresh: true,
             active: 1,
         };
     },
     methods: {
         handleselect(index) {
+            this.refresh = true 
             this.active = index;
         }
     },

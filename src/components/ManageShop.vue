@@ -123,8 +123,8 @@ export default {
             const { product } = await vendorGetProduct(this.userInfo.vendorId)
             // console.log(res)
             this.tableData = product
+            // const res = await vendorGetProduct(this.userInfo.vendorId)
 
-            console.log(this.tableData)
         },
         showdia_add() {
             this.dia_add = true;

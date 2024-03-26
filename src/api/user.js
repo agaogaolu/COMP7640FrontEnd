@@ -52,8 +52,24 @@ export const userSendingGet = () => {
 
 export const userAddOrder = (data) => {
     return request.post('/api/user/addorder', {
-        'customer_id':data.customer_id,
+        'customer_id': data.customer_id,
         'orderlist': data.orderlist
 
     })
 }
+
+export const userOrders = (data) => {
+    return request.post('/api/user/vieworder', {
+        'customer_id': data,
+    })
+}
+
+export const userFilter = (data) => {
+    return request.post('/api/user/searchwithtags', {
+        "vendor_id": data.vendor_id,
+        "colour": data.colour,
+        "thickness": data.thickness,
+        "size": data.size
+    })
+}
+

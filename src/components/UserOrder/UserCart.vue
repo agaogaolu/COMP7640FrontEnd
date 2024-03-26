@@ -1,17 +1,48 @@
 <template>
   <div>
-    <el-table :data="cartList" style="width: 100%" class="table" align="center"  border>
-      <el-table-column prop="product_name" label="Prodct Name" width="200" align="center">
+    <div>
+      <el-select v-model="selectedFilters.colour" placeholder="Select colour">
+        <el-option v-for="colour in tagList.colour" :key="colour" :label="colour" :value="colour"></el-option>
+      </el-select>
+      <el-select v-model="selectedFilters.thickness" placeholder="Select thickness">
+        <el-option v-for="thickness in tagList.thickness" :key="thickness" :label="thickness"
+          :value="thickness"></el-option>
+      </el-select>
+      <el-select v-model="selectedFilters.size" placeholder="Select size">
+        <el-option v-for="size in tagList.size" :key="size" :label="size" :value="size"></el-option>
+      </el-select>
+      <el-button @click="applyFilter">Apply Filter</el-button>
+    </div>
+
+
+
+    <el-table :data="cartList" style="width: 100%" class="table" align="center" border>
+      <el-table-column prop="product_name" label="Prodct Name" width="100" align="center">
       </el-table-column>
-      <el-table-column prop="price" label="Price" width="200" align="center">
+      <el-table-column prop="price" label="Price" width="100" align="center">
       </el-table-column>
-      <el-table-column prop="inventory" label="Inventory" width="200" align="center">
+      <el-table-column prop="inventory" label="Inventory" width="100" align="center">
       </el-table-column>
       <el-table-column label="Score" width="200" align="center">
         <div class="block">
           <el-rate :value="3" disabled></el-rate>
         </div>
       </el-table-column>
+
+      <el-table-column label="Tag" width="250" align="center">
+        <template v-slot="{ row }">
+          <el-tag style="margin: 5px;">{{ row.colour }}</el-tag>
+          <el-tag style="margin: 5px;">{{ row.thickness }}</el-tag>
+          <el-tag style="margin: 5px;">{{ row.size }}</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Quantity" width="200" align="center">
+        <template v-slot="{ row }">
+          <el-input-number  size="mini" v-model="row.purchase_count" :min="1" :disabled="!row.buy"></el-input-number>
+        </template>
+      </el-table-column>
+
       <el-table-column prop="buy" label="Add Cart?" width="208" align="center">
         <template v-slot="{ row }">
           <el-button v-if="!row.buy" icon="el-icon-plus" size="small" type="success" @click="handler(row)">加入购物车
@@ -29,7 +60,8 @@
 </template>
 
 <script>
-import { userGetProduct } from '@/api/user';
+
+import { userGetProduct,userFilter } from '@/api/user';
 
 export default {
   props: {
@@ -42,7 +74,17 @@ export default {
     return {
       cartList: [],
       stateCartList: [],
-      userInfo:'',
+      userInfo: '',
+      tagList: {
+        colour: ["black", "blue", "white"],
+        size: ["small-size", "over-size"],
+        thickness: ["thick", "thin"],
+      },
+      selectedFilters: {
+        colour: '',
+        thickness: '',
+        size: '',
+      },
     }
   },
   computed: {
@@ -50,7 +92,7 @@ export default {
     price_count() {
       return this.cartList.reduce((sum, obj) => {
         if (obj.buy) {
-          sum += obj.price;
+          sum += obj.price*obj.purchase_count;
         }
         return sum;
       }, 0);
@@ -59,28 +101,38 @@ export default {
     number_count() {
       return this.cartList.reduce((sum, obj) => {
         if (obj.buy) {
-          sum += 1;
+          sum += obj.purchase_count;
         }
         return sum;
       }, 0);
     },
   },
+
+  watch: {
+    'selectedFilters': {
+      handler(newFilters) {
+        console.log('Filters updated:', newFilters);
+        // Apply filtering logic here
+      },
+      deep: true
+    }
+  },
+
   methods: {
     async getData() {
       this.stateCartList = this.$store.state.cart.cartList
-      // console.log("this.stateCartList")
-      // console.log(this.stateCartList) 
       if (!this.stateCartList[this.vendorId]) {
         const { product } = await userGetProduct(this.vendorId)
         this.cartList = product.map(e => ({
           ...e,
+          ...(e.purchase_count ? { purchase_count :e.purchase_count} : {purchase_count :1}),
           buy: false
         }))
       } else {
         const { products } = this.stateCartList[this.vendorId]
         this.cartList = products
       }
-
+      console.log(this.cartList)
 
     },
     handler(row) {
@@ -92,6 +144,13 @@ export default {
       console.log("back")
       this.$store.commit('cart/setCart', { vendorId: this.vendorId, products: this.cartList })
       this.$emit('backVenderList',)
+    },
+    async applyFilter() {
+      this.selectedFilters.vendor_id = this.vendorId
+      const res = await userFilter(this.selectedFilters)
+      console.log(res)
+
+      // You can now use this.selectedFilters to filter your data
     }
   },
   mounted() {

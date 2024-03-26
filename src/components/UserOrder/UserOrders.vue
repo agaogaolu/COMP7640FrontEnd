@@ -1,29 +1,26 @@
 <template>
     <div>
         <div class="header">
-            未发货订单
+            Orders
         </div>
         <div class="body">
-            <el-table :data="tableData" style="width: 100%" class="table" border align="center">
-                <el-table-column prop="orderid" label="Order" width="80" align="center">
-                </el-table-column>
-                <el-table-column prop="product_name" label="Product Name" width="100" align="center">
-                </el-table-column>
-                <el-table-column prop="price_pd" label="Price" width="80" align="center">
-                </el-table-column>
-                <el-table-column prop="date" label="Date" width="200" align="center">
-                </el-table-column>
-                <el-table-column prop="customer_id" label="Customer ID" width="100" align="center">
-                </el-table-column>
-                <el-table-column prop="status" label="Status" width="200" align="center">
-                </el-table-column>
-                <el-table-column prop="operate" label="Edit Status" width="127" align="center">
-                    <template slot-scope="scope">
-                        <el-button size="small" type="success" @click="show_dialog(scope.row)">Edit Status
-                        </el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
+            <template>
+                <el-table :data="tableData" style="width: 100%" row-key="ordernum" align="center">
+                    <el-table-column prop="ordernum" label="Order Number" width="180"></el-table-column>
+                    <el-table-column prop="date" label="Date" width="180"></el-table-column>
+                    <el-table-column prop="vendor_name" label="Vendor" width="180"></el-table-column>
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-table :data="props.row.products" style="width: 100%">
+                                <el-table-column prop="product_name" label="Product Name"></el-table-column>
+                                <el-table-column prop="price_pd" label="Price"></el-table-column>
+                                <el-table-column prop="purchase_count" label="Quantity"></el-table-column>
+                                <el-table-column prop="status" label="Status"></el-table-column>
+                            </el-table>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </template>
 
             <el-dialog title="Edit Order Status" :visible.sync="dialog" width="30%">
                 <el-form ref="form" :model="form" label-width="120px">
@@ -54,15 +51,12 @@
 
 
 <script>
-import { vendorOrder, vendorOrderUpdate } from '@/api/manage.js'
+import { userOrders } from '@/api/user.js'
+
 export default {
-    created() {
-        this.userInfo = this.$store.getters.userInfo
-        console.log(this.userInfo)
-        this.getdata()
-    },
     data() {
         return {
+            showOrderDetail: true,
             userInfo: null,
             tableData: [],
             dialog: false,
@@ -80,26 +74,30 @@ export default {
     },
     methods: {
         async getdata() {
-            const { total_order } = await vendorOrder(this.userInfo.vendorId)
-            this.tableData = total_order
-            console.log(this.tableData)
+            const { total_order } = await userOrders(this.userInfo.customerId)
+            // this.tableData = total_order
+            let cacheData = []
+            total_order.map(e => {
+                // console.log(e.ordernum)
+                if (!cacheData[e.ordernum]) {
+                    cacheData[e.ordernum] = {
+                        ...e,
+                        products: []
+                    }
+                }
+                cacheData[e.ordernum].products.push(e)
+            })
+            this.tableData = Object.values(cacheData)
+
         },
         show_dialog(row) {
             this.form.order_id = row.order_id;
             this.dialog = true;
         },
-        async update() {
-            const res = await vendorOrderUpdate(this.form)
-            if (res.status === 200) {
-                this.dialog = false;
-                this.$message({
-                    message: res.msg,
-                    type: "success"
-                })
-                this.getdata()
-            }
-
-        }
+    },
+    mounted() {
+        this.userInfo = this.$store.getters.userInfo
+        this.getdata()
     }
 
 }
