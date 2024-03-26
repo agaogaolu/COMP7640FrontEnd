@@ -54,7 +54,7 @@ instance.interceptors.response.use(function (response) {
     return res
 }, function (error) {
     Vue.prototype.$message({
-        message: "网络故障",
+        message: "Netword Error",
         type: 'error'
     })
     // 超出 2xx 范围的状态码都会触发该函数。

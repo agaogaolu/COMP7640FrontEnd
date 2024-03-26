@@ -2,7 +2,7 @@
     <div class="container">
         <div class="login_box">
             <div class="head">
-                在线购物系统
+                Online Shopping System
             </div>
             <!-- 登录 -->
             <div v-show="target == 1">
@@ -27,14 +27,14 @@
 
                     <!-- 按钮 -->
                     <el-form-item class="btns">
-                        <el-button type="primary" @click="llogin()">登录</el-button>
+                        <el-button type="primary" @click="llogin()">Login</el-button>
                     </el-form-item>
 
                 </el-form>
                 <div>
                     <div class="operate">
-                        <span id="op1" @click="change(2)">注册</span>
-                        <span id="op2" @click="change(3)">忘记密码</span>
+                        <span id="op1" @click="change(2)">Register</span>
+                        <span id="op2" @click="change(3)">Forget password?</span>
                     </div>
                 </div>
             </div>
@@ -44,25 +44,25 @@
         <!-- 注册表单 -->
         <div class="reg_box" v-show="target == 2">
             <div class="head">
-                在线购物系统
+                Online Shopping System
             </div>
             <div>
                 <el-form class="reg_form" :model="reg_form" :rules="reg_rules" ref="reg_form">
                     <!-- 用户名 -->
                     <el-form-item prop="username">
                         <el-input prefix-icon="iconfont icon-user" v-model="reg_form.username" spellcheck="false"
-                            placeholder="用户名">
+                            placeholder="Username">
                         </el-input>
                     </el-form-item>
                     <!-- 密码 -->
                     <el-form-item prop="password">
                         <el-input prefix-icon="iconfont icon-password" v-model="reg_form.password" show-password
-                            spellcheck="false" placeholder="密码(包含大小写字母、数字，长度在6-12之间)"></el-input>
+                            spellcheck="false" placeholder="Password(包含大小写字母、数字，长度在6-12之间)"></el-input>
                     </el-form-item>
 
                     <el-form-item prop="telephone">
                         <el-input prefix-icon="iconfont icon-password" v-model="reg_form.telephone" spellcheck="false"
-                            placeholder="手机号码"></el-input>
+                            placeholder="PhoneNumber"></el-input>
                     </el-form-item>
 
                     <el-form-item prop="role">
@@ -74,14 +74,14 @@
                     </el-form-item>
                     <!-- 按钮 -->
                     <el-form-item class="btns">
-                        <el-button type="primary" @click="zhuce()">注册</el-button>
+                        <el-button type="primary" @click="zhuce()">Register</el-button>
                     </el-form-item>
 
                 </el-form>
                 <div>
                     <div>
                         <span @click="change(1)"
-                            style="margin-left:210px;color: #000;opacity: .5;font-weight: 400;font-size: 16px;cursor:pointer;">登录</span>
+                            style="margin-left:210px;color: #000;opacity: .5;font-weight: 400;font-size: 16px;cursor:pointer;">Login</span>
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
         <!-- 找回密码 -->
         <div class="forget_box" v-show="target == 3">
             <div class="head">
-                在线购物系统
+                Online Shopping System
             </div>
             <div>
                 <el-form class="reg_form" :model="findback_form" :rules="findback_rules" ref="findback_form">
