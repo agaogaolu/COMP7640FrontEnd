@@ -1,17 +1,18 @@
 <template>
   <div>
-    <div>
-      <el-select v-model="selectedFilters.colour" placeholder="Select colour">
+    <div  style="margin-bottom: 20px;">
+      <el-select style="margin: 5px;" v-model="selectedFilters.colour" placeholder="Select colour">
         <el-option v-for="colour in tagList.colour" :key="colour" :label="colour" :value="colour"></el-option>
       </el-select>
-      <el-select v-model="selectedFilters.thickness" placeholder="Select thickness">
+      <el-select style="margin: 5px;"  v-model="selectedFilters.thickness" placeholder="Select thickness">
         <el-option v-for="thickness in tagList.thickness" :key="thickness" :label="thickness"
           :value="thickness"></el-option>
       </el-select>
-      <el-select v-model="selectedFilters.size" placeholder="Select size">
+      <el-select style="margin: 5px;"  v-model="selectedFilters.size" placeholder="Select size">
         <el-option v-for="size in tagList.size" :key="size" :label="size" :value="size"></el-option>
       </el-select>
       <el-button @click="applyFilter">Apply Filter</el-button>
+      <el-button @click="resetFilter">Reset Filter</el-button>
     </div>
 
 
@@ -39,7 +40,7 @@
 
       <el-table-column label="Quantity" width="200" align="center">
         <template v-slot="{ row }">
-          <el-input-number  size="mini" v-model="row.purchase_count" :min="1" :disabled="!row.buy"></el-input-number>
+          <el-input-number size="mini" v-model="row.purchase_count" :min="1" :disabled="!row.buy"></el-input-number>
         </template>
       </el-table-column>
 
@@ -61,7 +62,7 @@
 
 <script>
 
-import { userGetProduct,userFilter } from '@/api/user';
+import { userGetProduct, userFilter } from '@/api/user';
 
 export default {
   props: {
@@ -72,6 +73,7 @@ export default {
   },
   data() {
     return {
+      filterStatus:false,
       cartList: [],
       stateCartList: [],
       userInfo: '',
@@ -92,7 +94,7 @@ export default {
     price_count() {
       return this.cartList.reduce((sum, obj) => {
         if (obj.buy) {
-          sum += obj.price*obj.purchase_count;
+          sum += obj.price * obj.purchase_count;
         }
         return sum;
       }, 0);
@@ -121,11 +123,11 @@ export default {
   methods: {
     async getData() {
       this.stateCartList = this.$store.state.cart.cartList
-      if (!this.stateCartList[this.vendorId]) {
+      if (!this.stateCartList[this.vendorId] || !this.filterStatus) {
         const { product } = await userGetProduct(this.vendorId)
         this.cartList = product.map(e => ({
           ...e,
-          ...(e.purchase_count ? { purchase_count :e.purchase_count} : {purchase_count :1}),
+          ...(e.purchase_count ? { purchase_count: e.purchase_count } : { purchase_count: 1 }),
           buy: false
         }))
       } else {
@@ -146,12 +148,25 @@ export default {
       this.$emit('backVenderList',)
     },
     async applyFilter() {
-      this.selectedFilters.vendor_id = this.vendorId
-      const res = await userFilter(this.selectedFilters)
-      console.log(res)
-
-      // You can now use this.selectedFilters to filter your data
+      this.filterStatus = true
+      this.selectedFilters.vendor_id = this.vendorId;
+      const { product } = await userFilter(this.selectedFilters);
+      if (product && Array.isArray(product) && product.length > 0) {
+        this.cartList = product.map(e => ({
+          ...e,
+          purchase_count: e.purchase_count ? e.purchase_count : 1,
+          buy: false
+        }));
+        console.log(this.cartList)
+      } else {
+        this.cartList = [];
+      }
+    },
+    async resetFilter(){
+      this.filterStatus = false
+      this.getData()
     }
+
   },
   mounted() {
     this.userInfo = this.$store.getters.userInfo
