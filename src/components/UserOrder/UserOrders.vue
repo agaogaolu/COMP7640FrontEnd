@@ -9,32 +9,28 @@
                     <el-table-column prop="ordernum" label="Order Number" width="180"></el-table-column>
                     <el-table-column prop="date" label="Date" width="180"></el-table-column>
                     <el-table-column prop="vendor_name" label="Vendor" width="180"></el-table-column>
+                    <el-table-column prop="status" label="Status" width="180"></el-table-column>
+                    <el-table-column prop="operate" label="Edit Status" width="127" align="center">
+                        <template slot-scope="scope">
+                            <el-button size="small" type="danger" @click="show_dialog(scope.row)">Delete
+                            </el-button>
+                        </template>
+                    </el-table-column>
                     <el-table-column type="expand">
                         <template slot-scope="props">
                             <el-table :data="props.row.products" style="width: 100%">
                                 <el-table-column prop="product_name" label="Product Name"></el-table-column>
                                 <el-table-column prop="price_pd" label="Price"></el-table-column>
                                 <el-table-column prop="purchase_count" label="Quantity"></el-table-column>
-                                <el-table-column prop="status" label="Status"></el-table-column>
+
                             </el-table>
                         </template>
                     </el-table-column>
                 </el-table>
             </template>
 
-            <el-dialog title="Edit Order Status" :visible.sync="dialog" width="30%">
-                <el-form ref="form" :model="form" label-width="120px">
-
-                    <el-form-item label="Choose Status:" prop="">
-                        <el-select v-model="form.dispatcher_status" placeholder="Plz choose status">
-
-                            <el-option v-for="( item, index)  in disp_range" :key="index" :label="item.label"
-                                :value="item.label"></el-option>
-                        </el-select>
-
-                    </el-form-item>
-
-                </el-form>
+            <el-dialog title="Delete Order" :visible.sync="dialog" width="30%">
+                <div>Confirm delete this order?</div>
                 <div style="text-align: center;">
                     <el-button type="primary" @click="update()">
                         Confirm
@@ -49,7 +45,8 @@
 
 
 <script>
-import { userOrders } from '@/api/user.js'
+import { userOrders, userDelOrder } from '@/api/user.js'
+
 import { bus } from '@/utils/bus.js'
 export default {
     data() {
@@ -89,9 +86,23 @@ export default {
 
         },
         show_dialog(row) {
-            this.form.order_id = row.order_id;
+            this.form.order_id = row.ordernum;
+            console.log(row)
             this.dialog = true;
         },
+        async update() {
+            console.log(this.form.order_id)
+            const res = await userDelOrder(this.form.order_id)
+            console.log(res)
+            if (res.status === 200) {
+                this.dialog = false;
+                this.$message({
+                    message: res.msg,
+                    type: "success"
+                })
+                this.getdata()
+            }
+        }
     },
     mounted() {
         this.userInfo = this.$store.getters.userInfo
@@ -103,7 +114,7 @@ export default {
             this.getdata()
         })
     },
-    destroyed(){
+    destroyed() {
         bus.$off('orderSubmit', {})
     }
 

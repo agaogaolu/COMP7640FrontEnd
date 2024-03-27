@@ -73,3 +73,11 @@ export const userFilter = (data) => {
     })
 }
 
+export const userDelOrder = (data) => {
+    return request.post('/api/user/deleteorder', {
+        "order_id": data,
+    })
+}
+
+
+
