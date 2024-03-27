@@ -21,8 +21,8 @@ instance.interceptors.request.use(function (config) {
     if (userInfo.token) {
         config.headers.token = userInfo.token
     }
-    console.log("11111")
-    console.log(config)
+    // console.log("11111")
+    // console.log(config)
     return config
 }, function (error) {
     // Do something about the request error

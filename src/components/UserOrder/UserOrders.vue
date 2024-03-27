@@ -86,7 +86,7 @@ export default {
 
         },
         show_dialog(row) {
-            this.form.order_id = row.ordernum;
+            this.form.order_id = row.order_id;
             console.log(row)
             this.dialog = true;
         },
