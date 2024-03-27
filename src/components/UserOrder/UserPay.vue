@@ -32,6 +32,7 @@
 
 <script>
 import { userAddOrder } from '@/api/user'
+import { bus } from '@/utils/bus.js'
 export default {
 
     data() {
@@ -62,6 +63,7 @@ export default {
             const res = await userAddOrder(data)
             if (res.status === 200) {
                 this.dialog = false;
+                bus.$emit('orderSubmit','')
                 this.backVenderList()
                 this.$message({
                     message: res.msg,

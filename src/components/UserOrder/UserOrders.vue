@@ -50,7 +50,7 @@
 
 <script>
 import { userOrders } from '@/api/user.js'
-
+import { bus } from '@/utils/bus.js'
 export default {
     data() {
         return {
@@ -96,6 +96,15 @@ export default {
     mounted() {
         this.userInfo = this.$store.getters.userInfo
         this.getdata()
+    },
+    created() {
+
+        bus.$on('orderSubmit', () => {
+            this.getdata()
+        })
+    },
+    destroyed(){
+        bus.$off('orderSubmit', {})
     }
 
 }
