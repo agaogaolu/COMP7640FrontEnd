@@ -7,13 +7,13 @@
             <el-table v-if="showVendorPage === 1" :data="vendorData" style="width: 100%" class="table" align="center" border>
                 <el-table-column label="Shop Name" width="200" align="center">
                     <template slot-scope="scope">
-                        <!-- 在这里，我们使用一个 <div> 或者可以是任意的可点击元素，如 <span>，并在该元素上绑定点击事件 -->
+                    
                         <div @click="showshowVendorPage(scope.row)" style="cursor: pointer;">
                             {{ scope.row.vendor_name }}
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="评分" width="200" align="center">
+                <el-table-column label="score" width="200" align="center">
                     <template slot-scope="scope">
                         <div class="block">
                             <el-rate :value="Number(scope.row.score)" disabled></el-rate>
@@ -21,12 +21,12 @@
                     </template>
 
                 </el-table-column>
-                <el-table-column prop="buy" label="操作" width="208" align="center">
+                <el-table-column prop="buy" label="operation" width="208" align="center">
                     <template v-slot="{ row }">
                         <el-button v-if="!row.buy" icon="el-icon-plus" size="small" type="success"
-                            @click="handler(row)">加入购物车
+                            @click="handler(row)">Welcome to Buy
                         </el-button>
-                        <el-button v-else size="small" type="danger" @click="handler(row)">取消
+                        <el-button v-else size="small" type="danger" @click="handler(row)">Cancell
                         </el-button>
                     </template>
                 </el-table-column>
@@ -38,49 +38,39 @@
 
 
 
-            <el-dialog title="订餐表单" :visible.sync="dialog" class="dialog" width="40%">
+            <el-dialog title="Order table" :visible.sync="dialog" class="dialog" width="40%">
                 <div>
                     <el-form ref="form" :model="form" label-width="100px">
-                        <el-form-item label="店铺名称：">
+                        <el-form-item label="Vendor">
                             <span>{{ form.shop_name }}</span>
                             <!-- <el-input v-model="form.shop_name"></el-input> -->
                         </el-form-item>
 
-                        <el-form-item label="产品单价：">
+                        <el-form-item label="Product unit price:">
                             <span>{{ form.order_money }}</span>
                             <!-- <el-input v-model="form.order_money"></el-input> -->
                         </el-form-item>
 
-                        <el-form-item label="订餐方式：">
-                            <el-select v-model="form.order_way" placeholder="请选择订餐方式">
-                                <el-option label="人工订餐" value="人工订餐"></el-option>
-                                <el-option label="网上订餐" value="网上订餐"></el-option>
-                            </el-select>
-                        </el-form-item>
 
-                        <!-- <el-form-item label="客户电话：">
-                            <el-input v-model="form.cons_phone"></el-input>
-                        </el-form-item> -->
-
-                        <el-form-item label="客户姓名：">
+                        <el-form-item label="Customer Name:">
                             <el-input v-model="form.cons_name"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="送餐地址：">
+                        <el-form-item label="Address:">
                             <el-input v-model="form.cons_addre"></el-input>
                         </el-form-item>
 
                     </el-form>
                     <div style="text-align: center;">
                         <el-button type="primary" @click="add">
-                            提交
+                            Submitted
                         </el-button>
                     </div>
                 </div>
             </el-dialog>
         </div>
         <div v-if="showVendorPage === 1" class="footer">
-            <div>总计：（{{ price_count.totalNum }}）件商品 共{{ price_count.totalPrice }}元</div>
+            <div>Total：（{{ price_count.totalNum }}）item {{ price_count.totalPrice }}dollar</div>
             <el-button type="warning" @click="checkOut">Pay All</el-button>
         </div>
 
@@ -132,7 +122,7 @@ export default {
             const res = await userAddData(this.form)
             if (res.status == 200) {
                 this.$message({
-                    message: "成功下单",
+                    message: "Successful!",
                     type: "success"
                 })
             } else {
@@ -209,7 +199,7 @@ export default {
 
 .table {
     margin: 0 auto;
-    /* 这会使表格在.body容器中居中 */
+    
 }
 
 .footer {
@@ -224,7 +214,4 @@ export default {
 }
 
 
-.dialog {
-    /* width: 700px; */
-}
 </style>

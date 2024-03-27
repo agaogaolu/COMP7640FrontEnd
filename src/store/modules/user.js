@@ -4,7 +4,7 @@ export default {
     namespaced: true,
     state () {
       return {
-        // 个人权证相关
+        // 
         userInfo: getUserInfo()
       }
     },
@@ -18,7 +18,7 @@ export default {
     },
     actions: {
       logout (context) {
-        // 个人信息要重置
+        // Personal information should be reset
         context.commit('setUserInfo', {})
   
       }

@@ -30,7 +30,7 @@ export default {
     },
     actions: {
         clearCart(context) {
-            // 个人信息要重置
+            // Personal information should be reset
             context.commit('setCart', [])
 
         }

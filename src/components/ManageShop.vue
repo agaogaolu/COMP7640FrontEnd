@@ -13,7 +13,7 @@
                 </el-table-column>
                 <el-table-column prop="inventory" label="Inventory" width="200" align="center">
                 </el-table-column>
-                <el-table-column prop="operate" label="操作" width="200" align="center">
+                <el-table-column prop="operate" label="operate" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button size="small" type="warning" @click="showdia_chg(scope.row)">Edit
                         </el-button>

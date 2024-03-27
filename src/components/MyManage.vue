@@ -10,53 +10,16 @@
 
                     <el-menu-item index="1">
                         <i class="el-icon-s-shop"></i>
-                        <span slot="title">Shop Management</span>
+                        <span slot="title">Product Management</span>
                     </el-menu-item>
 
-                    <!-- <el-menu-item index="2">
-                        <i class="el-icon-s-custom"></i>
-                        <span slot="title">服务员管理</span>
-                    </el-menu-item>
-
-                    <el-menu-item index="3">
-                        <i class="el-icon-s-check"></i>
-                        <span slot="title">送餐员管理</span>
-                    </el-menu-item>
-
-
-                    <el-submenu>
-                        <template slot="title">
-                            <i class="el-icon-s-promotion"></i>
-                            <span>物流管理</span>
-                        </template>
-<el-menu-item-group>
-
-    <el-menu-item index="4">已完成</el-menu-item>
-    <el-menu-item index="5">进行中</el-menu-item>
-</el-menu-item-group>
-
-</el-submenu> -->
+                    
 
 
                     <el-menu-item index="8">
                         <i class="el-icon-s-shop"></i>
-                        <span slot="title">Ordere Management</span>
+                        <span slot="title">Order Management</span>
                     </el-menu-item>
-
-
-                    <!-- <el-submenu index="100">
-                        <template slot="title">
-                            <i class="el-icon-s-order"></i>
-                            <span>Ordere Management</span>
-                        </template>
-                        <el-menu-item-group>
-
-                            <el-menu-item index="6">已完成订单</el-menu-item>
-                            <el-menu-item index="7">已发货订单</el-menu-item>
-                            <el-menu-item index="8">未发货订单</el-menu-item>
-                        </el-menu-item-group>
-
-                    </el-submenu> -->
 
                 </el-menu>
             </div>
@@ -65,29 +28,7 @@
                     <manageshop></manageshop>
                 </div>
 
-                <!-- <div id="manageserver" v-show="active == 2">
-                    <manageserver></manageserver>
-                </div>
 
-                <div id="managedispatcher" v-show="active == 3">
-                    <managedispatcher></managedispatcher>
-                </div>
-
-
-                <div id="wuliuended" v-show="active == 4">
-                    <wuliuended></wuliuended>
-                </div>
-
-                <div id="wuliuunended" v-show="active == 5">
-                    <wuliuunended></wuliuunended>
-                </div>
-                <div id="ordersended" v-show="active == 6">
-                    <ordersended></ordersended>
-                </div>
-                <div id="ordersending" v-show="active == 7">
-                    <ordersending></ordersending>
-                </div>
--->
                 <div id="manageorder" v-show="active == 8">
                     <manageorder></manageorder>
                 </div>

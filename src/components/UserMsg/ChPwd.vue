@@ -1,23 +1,23 @@
 <template>
     <div>
         <div class="header">
-            个人信息
+            Personal Information
         </div>
         <div class="body">
             <el-form ref="form" :model="form" label-width="23%" id="selectForm" :rules="form_rules">
-                <el-form-item label="原密码：" prop="old_pwd">
+                <el-form-item label="Original password:" prop="old_pwd">
                     <el-input v-model="form.old_pwd" type="password" show-password></el-input>
                 </el-form-item>
 
-                <el-form-item label="新密码：" prop="new_pwd">
+                <el-form-item label="New password:" prop="new_pwd">
                     <el-input v-model="form.new_pwd" type="password" show-password></el-input>
                 </el-form-item>
 
-                <el-form-item label="确认密码：" prop="check_pwd">
+                <el-form-item label="Confirm password:" prop="check_pwd">
                     <el-input v-model="form.check_pwd" type="password" show-password></el-input>
                 </el-form-item>
                 <el-form-item style="text-align:center;">
-                    <el-button type="primary" @click="change()">确定</el-button>
+                    <el-button type="primary" @click="change()">Submit</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -39,9 +39,9 @@ export default {
                 check_pwd: '',
             },
             form_rules: {
-                old_pwd: [{ required: true, message: "必填", trigger: 'blur' }],
-                new_pwd: [{ required: true, message: "必填", trigger: 'blur' }],
-                check_pwd: [{ required: true, message: "必填", trigger: 'blur' }]
+                old_pwd: [{ required: true, message: "mandatory field", trigger: 'blur' }],
+                new_pwd: [{ required: true, message: "mandatory field", trigger: 'blur' }],
+                check_pwd: [{ required: true, message: "mandatory field", trigger: 'blur' }]
             }
         }
     },
@@ -66,13 +66,13 @@ export default {
             this.$refs.form.validate(valid => {
                 if (!valid)
                     return;
-                else //验证通过再发送请求
+                else //Authentication passes before sending the request
                     if (this.form.check_pwd == this.form.new_pwd) {
                         this.changePwd()
                     }
                     else {
                         this.$message({
-                            message: "新密码与确认密码不一致",
+                            message: "New password does not match the confirmation password",
                             type: "error"
                         })
                     }

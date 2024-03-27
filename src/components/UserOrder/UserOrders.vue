@@ -33,9 +33,7 @@
                         </el-select>
 
                     </el-form-item>
-                    <!-- <el-form-item label="预计送货时间：">
-                        <el-input v-model="form.deliver_time"></el-input>
-                    </el-form-item> -->
+
                 </el-form>
                 <div style="text-align: center;">
                     <el-button type="primary" @click="update()">

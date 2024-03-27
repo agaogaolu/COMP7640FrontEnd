@@ -4,7 +4,7 @@ import user from './modules/user';
 import cart from './modules/cart';
 Vue.use(Vuex);
 
-// 创建一个新的 store 实例
+// Create a new store instance
 const store = new Vuex.Store({
     state() {
         return {

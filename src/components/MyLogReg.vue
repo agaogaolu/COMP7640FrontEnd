@@ -2,19 +2,19 @@
     <div class="container">
         <div class="login_box">
             <div class="head">
-                在线购物系统
+                Online Shopping System
             </div>
-            <!-- 登录 -->
+            <!-- log in -->
             <div v-show="target == 1">
                 <el-form label-width="0" class="login_form" :model="login_form" :rules="login_rules" ref="login_form">
-                    <!-- 用户名 -->
+                    <!-- user ID -->
                     <el-form-item prop="userortel">
-                        <el-input v-model="login_form.userortel" spellcheck="false" placeholder="手机号">
+                        <el-input v-model="login_form.userortel" spellcheck="false" placeholder="Telephone Number">
                         </el-input>
                     </el-form-item>
-                    <!-- 密码 -->
+                    <!-- password -->
                     <el-form-item prop="password">
-                        <el-input v-model="login_form.password" show-password spellcheck="false" placeholder="密码">
+                        <el-input v-model="login_form.password" show-password spellcheck="false" placeholder="Password">
                         </el-input>
                     </el-form-item>
                     <el-form-item prop="role">
@@ -25,44 +25,44 @@
                         </el-select>
                     </el-form-item>
 
-                    <!-- 按钮 -->
+                    <!-- button -->
                     <el-form-item class="btns">
-                        <el-button type="primary" @click="llogin()">登录</el-button>
+                        <el-button type="primary" @click="llogin()">Login</el-button>
                     </el-form-item>
 
                 </el-form>
                 <div>
                     <div class="operate">
-                        <span id="op1" @click="change(2)">注册</span>
-                        <span id="op2" @click="change(3)">忘记密码</span>
+                        <span id="op1" @click="change(2)">Register</span>
+                        <span id="op2" @click="change(3)">Forgotten password</span>
                     </div>
                 </div>
             </div>
         </div>
 
 
-        <!-- 注册表单 -->
+        <!-- registration form -->
         <div class="reg_box" v-show="target == 2">
             <div class="head">
-                在线购物系统
+                Online Shopping System
             </div>
             <div>
                 <el-form class="reg_form" :model="reg_form" :rules="reg_rules" ref="reg_form">
-                    <!-- 用户名 -->
+                    <!-- username -->
                     <el-form-item prop="username">
                         <el-input prefix-icon="iconfont icon-user" v-model="reg_form.username" spellcheck="false"
-                            placeholder="用户名">
+                            placeholder="Username">
                         </el-input>
                     </el-form-item>
-                    <!-- 密码 -->
+                    <!-- Password -->
                     <el-form-item prop="password">
                         <el-input prefix-icon="iconfont icon-password" v-model="reg_form.password" show-password
-                            spellcheck="false" placeholder="密码(包含大小写字母、数字，长度在6-12之间)"></el-input>
+                            spellcheck="false" placeholder="Setting your Password"></el-input>
                     </el-form-item>
 
                     <el-form-item prop="telephone">
                         <el-input prefix-icon="iconfont icon-password" v-model="reg_form.telephone" spellcheck="false"
-                            placeholder="手机号码"></el-input>
+                            placeholder="Telephone Number"></el-input>
                     </el-form-item>
 
                     <el-form-item prop="role">
@@ -72,24 +72,24 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <!-- 按钮 -->
+                    <!-- button -->
                     <el-form-item class="btns">
-                        <el-button type="primary" @click="zhuce()">注册</el-button>
+                        <el-button type="primary" @click="zhuce()">Register!</el-button>
                     </el-form-item>
 
                 </el-form>
                 <div>
                     <div>
                         <span @click="change(1)"
-                            style="margin-left:210px;color: #000;opacity: .5;font-weight: 400;font-size: 16px;cursor:pointer;">登录</span>
+                            style="margin-left:210px;color: #000;opacity: .5;font-weight: 400;font-size: 16px;cursor:pointer;">Login</span>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- 找回密码 -->
+        <!-- Retrieve password -->
         <div class="forget_box" v-show="target == 3">
             <div class="head">
-                在线购物系统
+                Online Shopping System
             </div>
             <div>
                 <el-form class="reg_form" :model="findback_form" :rules="findback_rules" ref="findback_form">
@@ -98,36 +98,36 @@
 
                     <el-form-item prop="telephone">
                         <el-input prefix-icon="iconfont icon-password" v-model="reg_form.telephone" spellcheck="false"
-                            placeholder="手机号码"></el-input>
+                            placeholder="Telephone Number"></el-input>
                     </el-form-item>
-                    <!-- 密码 -->
+                    <!-- Password -->
                     <el-form-item prop="password">
                         <el-input prefix-icon="iconfont icon-password" v-model="reg_form.password" show-password
-                            spellcheck="false" placeholder="新密码"></el-input>
+                            spellcheck="false" placeholder="New Password"></el-input>
                     </el-form-item>
 
                     <el-form-item prop="vercode">
-                        <el-input v-model="reg_form.vercode" spellcheck="false" placeholder="验证码" style="width:230px">
+                        <el-input v-model="reg_form.vercode" spellcheck="false" placeholder="CAPTCHA" style="width:230px">
                         </el-input>
                         <span style="width:120px;font-size: 16px;cursor: pointer;" @click="send_vercode_pre()"
                             v-show="getcode_show">
-                            获取验证码
+                            Get CAPTCHA
                         </span>
 
                         <span style="width:120px;font-size: 16px;cursor: pointer;" v-show="!getcode_show">
-                            {{ time_count }}s后重新获取
+                            {{ time_count }}s Retrieve
                         </span>
                     </el-form-item>
-                    <!-- 按钮 -->
+                    <!-- button -->
                     <el-form-item class="btns">
-                        <el-button type="primary" @click="findback()">确认修改</el-button>
+                        <el-button type="primary" @click="findback()">Confirmation of changes</el-button>
                     </el-form-item>
 
                 </el-form>
                 <div>
                     <div>
                         <span @click="change(1)"
-                            style="margin-left:210px;color: #000;opacity: .5;font-weight: 400;font-size: 16px;cursor:pointer;">登录</span>
+                            style="margin-left:210px;color: #000;opacity: .5;font-weight: 400;font-size: 16px;cursor:pointer;">Login</span>
                     </div>
                 </div>
             </div>
@@ -144,20 +144,20 @@ export default {
         var checkPassword = (rule, value, cb) => {
             const regPassword = /(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,12}$/;
             if (regPassword.test(value)) {
-                // 合法的手机号码
+                // 
                 return cb()
             }
             return cb()
-            // cb(new Error('包含大写字母、小写字母、数字，长度在6-12位之间'))
+            // 
         };
         var checkMobile = (rule, value, cb) => {
             const regMobile = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
             if (regMobile.test(value)) {
-                // 合法的手机号码
+                // 
                 return cb()
             }
             return cb()
-            // cb(new Error('手机号码格式不正确'))
+            // 
         };
         return {
             getcode_show: true,
@@ -183,20 +183,20 @@ export default {
             role_options: [{ label: "Users", value: "0" }, { label: "Admin", value: "1" }],
             login_rules: {
                 userortel: [
-                    { required: true, message: '请输入电话', trigger: 'blur' }, { validator: checkMobile, trigger: 'blur' }],
+                    { required: true, message: 'Please enter your phone number', trigger: 'blur' }, { validator: checkMobile, trigger: 'blur' }],
                 password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' }]
+                    { required: true, message: 'Please enter your password', trigger: 'blur' }]
             },
             reg_rules: {
-                username: [{ required: true, message: '请设置用户名', trigger: 'blur' }],
-                password: [{ required: true, message: '请设置密码', trigger: 'blur' }, { validator: checkPassword, trigger: 'blur' }],
-                telephone: [{ required: true, message: '请绑定手机号', trigger: 'blur' }, { validator: checkMobile, trigger: 'blur' }]
+                username: [{ required: true, message: 'Please set the user name', trigger: 'blur' }],
+                password: [{ required: true, message: 'Please set a password', trigger: 'blur' }, { validator: checkPassword, trigger: 'blur' }],
+                telephone: [{ required: true, message: 'Please bind the cell phone number', trigger: 'blur' }, { validator: checkMobile, trigger: 'blur' }]
             },
             findback_rules: {
                 userortel: [
-                    { required: true, message: '请输入电话', trigger: 'blur' }, { validator: checkMobile, trigger: 'blur' }],
+                    { required: true, message: 'Please enter your phone number', trigger: 'blur' }, { validator: checkMobile, trigger: 'blur' }],
                 password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' }]
+                    { required: true, message: 'Please enter your password', trigger: 'blur' }]
             },
         }
     },
@@ -237,7 +237,7 @@ export default {
             this.$refs.login_form.validate(valid => {
                 if (!valid)
                     return;
-                else //验证通过再发送请求
+                else //Authentication passes before sending the request
                     this.login();
             })
 
@@ -262,7 +262,7 @@ export default {
                 this.$router.push('/manage')
         },
 
-        // 获取验证码
+        // Get CAPTCHA
         send_vercode_pre() {
             this.$refs.reg_form.validate(valid => {
                 if (!valid) {
@@ -284,7 +284,7 @@ export default {
             }).then(() => {
 
                 this.$message({
-                    message: '验证码发送成功',
+                    message: 'Verification Code Sent Successfully',
                     type: 'success'
                 })
 

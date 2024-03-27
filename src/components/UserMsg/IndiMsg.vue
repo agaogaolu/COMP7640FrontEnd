@@ -1,31 +1,31 @@
 <template>
     <div>
         <div class="header">
-            个人信息
+            Personal Information
         </div>
         <div class="body">
             <el-form ref="form" :model="form" label-width="20%" id="selectForm">
-                <el-form-item label="用户名：" prop="dispatcher_id">
+                <el-form-item label="Username:" prop="dispatcher_id">
                     <span>{{ form.user_name }}</span>
                     <!-- <el-input v-model="form.user_name"></el-input> -->
                 </el-form-item>
-                <el-form-item label="真实姓名：" prop="dispatcher_name">
+                <el-form-item label="Name:" prop="dispatcher_name">
                     <span>{{ form.real_name }}</span>
                     <!-- <el-input v-model="form.real_name"></el-input> -->
                 </el-form-item>
-                <el-form-item label="年龄：" prop="dispatcher_phone">
+                <el-form-item label="Age:" prop="dispatcher_phone">
                     <span>{{ form.age }}</span>
                     <!-- <el-input v-model="form.age"></el-input> -->
                 </el-form-item>
-                <el-form-item label="性别：" prop="dispatcher_phone">
+                <el-form-item label="Gender:" prop="dispatcher_phone">
                     <span>{{ form.sex }}</span>
                     <!-- <el-input v-model="form.sex"></el-input> -->
                 </el-form-item>
-                <el-form-item label="电话：" prop="dispatcher_phone">
+                <el-form-item label="Phone:" prop="dispatcher_phone">
                     <span>{{ form.phone }}</span>
                     <!-- <el-input v-model="form.phone"></el-input> -->
                 </el-form-item>
-                <el-form-item label="邮箱：" prop="dispatcher_phone">
+                <el-form-item label="Mailbox:" prop="dispatcher_phone">
                     <span>{{ form.mail }}</span>
                     <!-- <el-input v-model="form.mail"></el-input> -->
                 </el-form-item>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-table :data="cartList" style="width: 100%" class="table" align="center" border>
+        <el-table :data="cartList" style="width: 100%" class="table" align="center" border  empty-text="Nothing in this cart!">
             <el-table-column prop="product_name" label="Prodct Name" width="200" align="center">
             </el-table-column>
             <el-table-column prop="price" label="Price" width="200" align="center">
@@ -11,18 +11,18 @@
             </el-table-column>
             <el-table-column prop="purchase_count" label="Count" width="100" align="center">
             </el-table-column>
-            <el-table-column prop="buy" label="Add Cart?" width="208" align="center">
+            <el-table-column prop="buy" label="Add Cart" width="208" align="center">
                 <template v-slot="{ row }">
                     <el-button v-if="!row.buy" icon="el-icon-plus" size="small" type="success"
-                        @click="handler(row)">加入购物车
+                        @click="handler(row)">Add to cart
                     </el-button>
-                    <el-button v-else size="small" type="danger" @click="handler(row)">取消
+                    <el-button v-else size="small" type="danger" @click="handler(row)">Cancell
                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
         <div v-if="true" class="footer">
-            <div>总计：（{{ price_count.totalNum }}）件商品 共{{ price_count.totalPrice }}元</div>
+            <div>Total：（{{ price_count.totalNum }}）item {{ price_count.totalPrice }}dollar</div>
             <el-button type="warning" @click="backVenderList()">Back Vender List</el-button>
             <el-button type="primary" @click="payForAll()">Pay For All</el-button>
         </div>

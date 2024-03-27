@@ -44,17 +44,17 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="buy" label="Add Cart?" width="208" align="center">
+      <el-table-column prop="buy" label="Add Cart" width="208" align="center">
         <template v-slot="{ row }">
-          <el-button v-if="!row.buy" icon="el-icon-plus" size="small" type="success" @click="handler(row)">加入购物车
+          <el-button v-if="!row.buy" icon="el-icon-plus" size="small" type="success" @click="handler(row)">Add to cart
           </el-button>
-          <el-button v-else size="small" type="danger" @click="handler(row)">取消
+          <el-button v-else size="small" type="danger" @click="handler(row)">Cancell
           </el-button>
         </template>
       </el-table-column>
     </el-table>
     <div v-if="true" class="footer">
-      <div>此商家总计：（{{ number_count }}）件商品 共 ${{ price_count }} 元</div>
+      <div>Total in this vendor:（{{ number_count }}）item,  ${{ price_count }} dollar</div>
       <el-button type="warning" @click="backVenderList()">Back Vender List</el-button>
     </div>
   </div>
@@ -90,7 +90,7 @@ export default {
     }
   },
   computed: {
-    // 计算属性计算价格总和
+    // Calculation of attributes Calculation of sum of prices
     price_count() {
       return this.cartList.reduce((sum, obj) => {
         if (obj.buy) {
@@ -99,7 +99,7 @@ export default {
         return sum;
       }, 0);
     },
-    // 计算属性计算已购买商品的数量
+    // Calculation properties calculate the quantity of purchased goods
     number_count() {
       return this.cartList.reduce((sum, obj) => {
         if (obj.buy) {
