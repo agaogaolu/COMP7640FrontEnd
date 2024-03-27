@@ -54,11 +54,7 @@ instance.interceptors.response.use(function (response) {
     return res
 }, function (error) {
     Vue.prototype.$message({
-<<<<<<< HEAD
-        message: "error",
-=======
         message: "Netword Error",
->>>>>>> 52e17d4e76d4c267fc646139e644f531917795c6
         type: 'error'
     })
     // This function is triggered by any status code outside the 2xx range.
